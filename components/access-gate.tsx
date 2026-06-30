@@ -64,6 +64,24 @@ export function AccessGate({ children }: AccessGateProps) {
       <div className="gate-glow gate-glow-left" />
       <div className="gate-glow gate-glow-right" />
       <section className="gate-card">
+        <svg
+          className="gate-ornament"
+          viewBox="0 0 200 24"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <g
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.25"
+            strokeLinecap="round"
+          >
+            <line x1="10" y1="12" x2="75" y2="12" />
+            <path d="M75 12 q8 -8 16 0 t16 0" />
+            <line x1="107" y1="12" x2="190" y2="12" />
+            <circle cx="100" cy="12" r="2.4" fill="currentColor" stroke="none" />
+          </g>
+        </svg>
         <div className="gate-mark">
           <BookOpen size={22} strokeWidth={1.8} />
         </div>
