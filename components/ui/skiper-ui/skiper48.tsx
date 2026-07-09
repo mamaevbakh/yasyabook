@@ -78,6 +78,7 @@ const Carousel_002 = ({
   rewind = false,
   autoplay = false,
   spaceBetween = 40,
+  onImageClick,
 }: {
   images: { src: string; alt: string }[];
   className?: string;
@@ -87,6 +88,7 @@ const Carousel_002 = ({
   rewind?: boolean;
   autoplay?: boolean;
   spaceBetween?: number;
+  onImageClick?: (image: { src: string; alt: string }) => void;
 }) => {
   const css = `
   .Carousal_002 {
@@ -119,6 +121,13 @@ const Carousel_002 = ({
         grabCursor={true}
         loop={loop}
         rewind={rewind}
+        onClick={(_swiper, event) => {
+          const target = event.target as HTMLElement;
+          if (target.tagName === "IMG" && onImageClick) {
+            const img = target as HTMLImageElement;
+            onImageClick({ src: img.currentSrc || img.src, alt: img.alt });
+          }
+        }}
         pagination={
           showPagination
             ? {

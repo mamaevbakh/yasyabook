@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { toPng } from "html-to-image";
-import { Download, ImagePlus } from "lucide-react";
+import { Download, ImagePlus, X } from "lucide-react";
 import CurvedLoop from "@/components/CurvedLoop";
 import { Carousel_002 } from "@/components/ui/skiper-ui/skiper48";
 import { Carousel_006 } from "@/components/ui/skiper-ui/skiper54";
@@ -14,6 +14,10 @@ export function MemoriesPage() {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
   const [downloading, setDownloading] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState<{
+    src: string;
+    alt: string;
+  } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const passportRef = useRef<HTMLDivElement>(null);
 
@@ -47,6 +51,25 @@ export function MemoriesPage() {
       // Nothing to reconcile — the button just stays clickable to retry.
     } finally {
       setDownloading(false);
+    }
+  }
+
+  useEffect(() => {
+    if (!lightboxImage) return;
+
+    function handleKeydown(event: KeyboardEvent) {
+      if (event.key === "Escape") setLightboxImage(null);
+    }
+
+    window.addEventListener("keydown", handleKeydown);
+    return () => window.removeEventListener("keydown", handleKeydown);
+  }, [lightboxImage]);
+
+  function handleCarouselClick(event: React.MouseEvent<HTMLElement>) {
+    const target = event.target as HTMLElement;
+    if (target.tagName === "IMG") {
+      const img = target as HTMLImageElement;
+      setLightboxImage({ src: img.currentSrc || img.src, alt: img.alt });
     }
   }
 
@@ -117,6 +140,21 @@ export function MemoriesPage() {
               </div>
             </dl>
           </div>
+
+          <div className="passport-diagnosis">
+            <span className="passport-kicker">Diagnosis</span>
+            <ul>
+              <li>ты non autist</li>
+              <li>claude (fable) golovnogo mozga</li>
+              <li>Smart, intelligent</li>
+              <li>lyubit gotovit&apos;</li>
+              <li>likes cats</li>
+            </ul>
+            <p className="passport-diagnosis-note">
+              Observing is not finished. Documentation is not complete.
+            </p>
+          </div>
+
           <div className="passport-seal" aria-hidden="true">
             <span>Approved by</span>
             <span>Баха Рамадан</span>
@@ -139,7 +177,7 @@ export function MemoriesPage() {
         <h2>4ota Na Beskone4nom</h2>
       </div>
 
-      <section className="keepsake-carousel">
+      <section className="keepsake-carousel" onClick={handleCarouselClick}>
         {memories && memories.length === 0 && (
           <p className="keepsake-message">
             No memories yet — add the first one below.
@@ -157,6 +195,7 @@ export function MemoriesPage() {
                 showPagination
                 loop={false}
                 rewind
+                onImageClick={setLightboxImage}
                 className="keepsake-carousel-inner"
               />
               <p className="keepsake-swipe-hint">Swipe</p>
@@ -196,6 +235,30 @@ export function MemoriesPage() {
         </button>
         {uploadError && <p className="keepsake-error">{uploadError}</p>}
       </div>
+
+      {lightboxImage && (
+        <div
+          className="keepsake-lightbox"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setLightboxImage(null)}
+        >
+          <div
+            className="keepsake-lightbox-inner"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="keepsake-lightbox-close"
+              onClick={() => setLightboxImage(null)}
+              aria-label="Close"
+            >
+              <X size={22} />
+            </button>
+            <img src={lightboxImage.src} alt={lightboxImage.alt} />
+          </div>
+        </div>
+      )}
     </main>
   );
 }

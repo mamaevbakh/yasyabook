@@ -1186,6 +1186,46 @@ button {
   white-space: nowrap;
 }
 
+.passport-diagnosis {
+  margin-top: 1.4rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.1rem;
+}
+
+.passport-diagnosis .passport-kicker {
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.passport-diagnosis ul {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.passport-diagnosis li {
+  color: var(--ink);
+  font-family: var(--font-serif), Garamond, Georgia, serif;
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+.passport-diagnosis li::before {
+  margin-right: 0.5rem;
+  color: var(--accent);
+  content: "❧";
+}
+
+.passport-diagnosis-note {
+  margin: 0.9rem 0 0;
+  color: var(--muted);
+  font-family: var(--font-serif), Garamond, Georgia, serif;
+  font-size: 0.76rem;
+  font-style: italic;
+}
+
 .passport-seal {
   position: absolute;
   right: 1.6rem;
@@ -1294,6 +1334,61 @@ button {
   .keepsake-carousel-desktop {
     display: block;
   }
+}
+
+/* ─────────  Lightbox  ───────── */
+
+.keepsake-carousel-mobile img,
+.keepsake-carousel-desktop img {
+  cursor: zoom-in;
+}
+
+.keepsake-lightbox {
+  position: fixed;
+  z-index: 30;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 2.5rem;
+  background: rgba(26, 22, 18, 0.86);
+  cursor: zoom-out;
+}
+
+.keepsake-lightbox-inner {
+  position: relative;
+  display: flex;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.keepsake-lightbox-inner img {
+  display: block;
+  max-width: 90vw;
+  max-height: 88vh;
+  width: auto;
+  height: auto;
+  border: 1px solid var(--line);
+  cursor: default;
+}
+
+.keepsake-lightbox-close {
+  position: absolute;
+  top: -3rem;
+  right: 0;
+  display: grid;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 0;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(243, 233, 212, 0.14);
+  color: var(--paper);
+  cursor: pointer;
+  transition: background var(--motion-quick);
+}
+
+.keepsake-lightbox-close:hover {
+  background: rgba(243, 233, 212, 0.26);
 }
 
 /* ─────────  Mini upload  ───────── */
