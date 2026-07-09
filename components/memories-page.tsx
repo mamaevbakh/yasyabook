@@ -126,8 +126,8 @@ export function MemoriesPage() {
       </section>
 
       <div className="keepsake-carousel-heading">
-        <h2>Proper doomscrolling looks like this</h2>
-        <p>Чота на бесконечном</p>
+        <p>Proper doomscrolling looks like this</p>
+        <h2>Чота на бесконечном</h2>
       </div>
 
       <section className="keepsake-carousel">

@@ -1135,8 +1135,8 @@ button {
 .passport-photo {
   overflow: hidden;
   flex: 0 0 auto;
-  width: 7rem;
-  height: 9rem;
+  width: 9.5rem;
+  height: 12rem;
   border: 1px solid var(--line);
 }
 
@@ -1226,20 +1226,21 @@ button {
   text-align: center;
 }
 
-.keepsake-carousel-heading h2 {
-  margin: 0;
-  font-family: var(--font-serif), Garamond, Georgia, serif;
-  font-size: clamp(1.4rem, 3.5vw, 1.85rem);
-  font-weight: 500;
-  letter-spacing: -0.005em;
-}
-
 .keepsake-carousel-heading p {
-  margin: 0.4rem 0 0;
+  margin: 0 0 0.5rem;
   color: var(--muted);
   font-family: var(--font-serif), Garamond, Georgia, serif;
   font-size: 0.9rem;
   font-style: italic;
+}
+
+.keepsake-carousel-heading h2 {
+  margin: 0;
+  font-family: var(--font-serif), Garamond, Georgia, serif;
+  font-size: clamp(2.8rem, 7vw, 4.4rem);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.04;
 }
 
 .keepsake-carousel {
