@@ -106,6 +106,13 @@ const Carousel_006 = ({
     };
 
     onReInit();
+
+    // Start on a middle snap so the very first view already reads as "one
+    // active photo in the center, peeking at neighbors on both sides" —
+    // snap 0 has nothing before it to peek at, so it renders flush-left.
+    const middle = Math.floor((api.scrollSnapList().length - 1) / 2);
+    if (middle > 0) api.scrollTo(middle, true);
+
     api.on("select", onSelect);
     api.on("reInit", onReInit);
 
