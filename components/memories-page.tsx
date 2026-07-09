@@ -146,21 +146,20 @@ export function MemoriesPage() {
         )}
 
         {memories && memories.length > 0 && (
-          <Carousel_002
-            images={memories.map((memory) => ({
-              src: memory.image_url,
-              alt: memory.caption || "A memory",
-            }))}
-            showPagination
-            loop={false}
-            className="keepsake-carousel-inner"
-          />
+          <>
+            <Carousel_002
+              images={memories.map((memory) => ({
+                src: memory.image_url,
+                alt: memory.caption || "A memory",
+              }))}
+              showPagination
+              loop={false}
+              className="keepsake-carousel-inner"
+            />
+            <p className="keepsake-swipe-hint">Swipe</p>
+          </>
         )}
       </section>
-
-      {memories && memories.length > 0 && (
-        <p className="keepsake-swipe-hint">Swipe</p>
-      )}
 
       <div className="keepsake-upload-mini">
         <input
