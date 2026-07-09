@@ -16,6 +16,13 @@ export type Note = {
   updated_at: string;
 };
 
+export type Memory = {
+  id: string;
+  image_url: string;
+  caption: string;
+  created_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -40,6 +47,27 @@ export type Database = {
           content?: Json;
           created_at?: string;
           updated_at?: string;
+        };
+        Relationships: [];
+      };
+      memories: {
+        Row: {
+          id: string;
+          image_url: string;
+          caption: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          image_url: string;
+          caption?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          image_url?: string;
+          caption?: string;
+          created_at?: string;
         };
         Relationships: [];
       };
