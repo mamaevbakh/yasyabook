@@ -1272,6 +1272,30 @@ button {
   text-transform: uppercase;
 }
 
+.keepsake-carousel-mobile {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.keepsake-carousel-desktop {
+  display: none;
+  width: 100%;
+  padding-bottom: 1.5rem;
+}
+
+@media (min-width: 761px) {
+  .keepsake-carousel-mobile {
+    display: none;
+  }
+
+  .keepsake-carousel-desktop {
+    display: block;
+  }
+}
+
 /* ─────────  Mini upload  ───────── */
 
 .keepsake-upload-mini {

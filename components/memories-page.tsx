@@ -5,6 +5,7 @@ import { toPng } from "html-to-image";
 import { Download, ImagePlus } from "lucide-react";
 import CurvedLoop from "@/components/CurvedLoop";
 import { Carousel_002 } from "@/components/ui/skiper-ui/skiper48";
+import { Carousel_006 } from "@/components/ui/skiper-ui/skiper54";
 import type { Memory } from "@/lib/database.types";
 import { listMemories, uploadMemory } from "@/lib/memories";
 
@@ -147,17 +148,32 @@ export function MemoriesPage() {
 
         {memories && memories.length > 0 && (
           <>
-            <Carousel_002
-              images={memories.map((memory) => ({
-                src: memory.image_url,
-                alt: memory.caption || "A memory",
-              }))}
-              showPagination
-              loop={false}
-              rewind
-              className="keepsake-carousel-inner"
-            />
-            <p className="keepsake-swipe-hint">Swipe</p>
+            <div className="keepsake-carousel-mobile">
+              <Carousel_002
+                images={memories.map((memory) => ({
+                  src: memory.image_url,
+                  alt: memory.caption || "A memory",
+                }))}
+                showPagination
+                loop={false}
+                rewind
+                className="keepsake-carousel-inner"
+              />
+              <p className="keepsake-swipe-hint">Swipe</p>
+            </div>
+
+            <div className="keepsake-carousel-desktop">
+              <Carousel_006
+                images={memories.map((memory) => ({
+                  src: memory.image_url,
+                  alt: memory.caption || "A memory",
+                  title: memory.caption,
+                }))}
+                showNavigation
+                showPagination
+                loop={false}
+              />
+            </div>
           </>
         )}
       </section>
