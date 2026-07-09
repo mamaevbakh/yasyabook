@@ -1053,7 +1053,7 @@ button {
 
 .keepsake-passport {
   display: flex;
-  width: min(100%, 34rem);
+  width: min(100%, 42rem);
   flex-direction: column;
   align-items: center;
   gap: 2.6rem;
@@ -1135,8 +1135,8 @@ button {
 .passport-photo {
   overflow: hidden;
   flex: 0 0 auto;
-  width: 9.5rem;
-  height: 12rem;
+  width: 12rem;
+  height: 15rem;
   border: 1px solid var(--line);
 }
 
