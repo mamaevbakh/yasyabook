@@ -1,0 +1,21 @@
+.curved-loop-jacket {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.curved-loop-svg {
+  user-select: none;
+  width: 100%;
+  aspect-ratio: 100 / 22;
+  overflow: visible;
+  display: block;
+  font-family: var(--font-serif), Garamond, Georgia, serif;
+  font-size: 7rem;
+  fill: var(--ink);
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  font-weight: 500;
+  line-height: 1;
+}

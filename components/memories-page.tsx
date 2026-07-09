@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { toPng } from "html-to-image";
 import { Download, ImagePlus } from "lucide-react";
+import CurvedLoop from "@/components/CurvedLoop";
 import { Carousel_002 } from "@/components/ui/skiper-ui/skiper48";
 import type { Memory } from "@/lib/database.types";
 import { listMemories, uploadMemory } from "@/lib/memories";
@@ -72,7 +73,14 @@ export function MemoriesPage() {
         <div className="keepsake-ornament" aria-hidden="true">
           ❦
         </div>
-        <h1 className="keepsake-headline">Thank You For Being So Cool</h1>
+        <h1 className="keepsake-headline">
+          <CurvedLoop
+            marqueeText="Thank ✦ You ✦ For ✦ Being ✦ So ✦ Cool ✦"
+            curveAmount={80}
+            speed={1}
+            className="keepsake-headline-loop"
+          />
+        </h1>
       </section>
 
       <section className="keepsake-passport">
@@ -143,13 +151,16 @@ export function MemoriesPage() {
               src: memory.image_url,
               alt: memory.caption || "A memory",
             }))}
-            showNavigation
             showPagination
             loop={false}
             className="keepsake-carousel-inner"
           />
         )}
       </section>
+
+      {memories && memories.length > 0 && (
+        <p className="keepsake-swipe-hint">Swipe</p>
+      )}
 
       <div className="keepsake-upload-mini">
         <input
