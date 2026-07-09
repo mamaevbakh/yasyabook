@@ -76,7 +76,7 @@ const Skiper54 = () => {
 };
 
 interface Carousel_006Props {
-  images: { src: string; alt: string; title?: string }[];
+  images: { src: string; alt: string; title: string }[];
   className?: string;
   autoplay?: boolean;
   loop?: boolean;
@@ -94,58 +94,13 @@ const Carousel_006 = ({
 }: Carousel_006Props) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
-  const [centeredIndex, setCenteredIndex] = useState(0);
-  const [snapCount, setSnapCount] = useState(images.length);
 
   useEffect(() => {
     if (!api) return;
 
-    // The scroll-snap index (used for pagination dots) and the image that
-    // actually sits at the visual center of the viewport are NOT the same
-    // number once there are more photos than fit on screen at once — e.g.
-    // 5 photos can produce 3 snaps, and snap 1 might center image 2, not
-    // image 1. Find the truly-centered slide by DOM geometry instead of
-    // assuming it matches the snap index.
-    const findCenteredIndex = () => {
-      const containerRect = api.containerNode().getBoundingClientRect();
-      const containerCenter = containerRect.left + containerRect.width / 2;
-      let closest = 0;
-      let minDistance = Infinity;
-      api.slideNodes().forEach((slide, index) => {
-        const rect = slide.getBoundingClientRect();
-        const distance = Math.abs(rect.left + rect.width / 2 - containerCenter);
-        if (distance < minDistance) {
-          minDistance = distance;
-          closest = index;
-        }
-      });
-      return closest;
-    };
-
-    const onSelect = () => {
+    api.on("select", () => {
       setCurrent(api.selectedScrollSnap());
-      setCenteredIndex(findCenteredIndex());
-    };
-    const onReInit = () => {
-      setSnapCount(api.scrollSnapList().length);
-      onSelect();
-    };
-
-    onReInit();
-
-    // Start on a middle snap so the very first view already reads as "one
-    // active photo in the center, peeking at neighbors on both sides" —
-    // snap 0 has nothing before it to peek at, so it renders flush-left.
-    const middle = Math.floor((api.scrollSnapList().length - 1) / 2);
-    if (middle > 0) api.scrollTo(middle, true);
-
-    api.on("select", onSelect);
-    api.on("reInit", onReInit);
-
-    return () => {
-      api.off("select", onSelect);
-      api.off("reInit", onReInit);
-    };
+    });
   }, [api]);
 
   return (
@@ -178,13 +133,13 @@ const Carousel_006 = ({
               initial={false}
               animate={{
                 clipPath:
-                  centeredIndex !== index
+                  current !== index
                     ? "inset(15% 0 15% 0 round 2rem)"
                     : "inset(0 0 0 0 round 2rem)",
               }}
               className="h-full w-full overflow-hidden rounded-3xl"
             >
-              <div className="relative h-full w-full border border-[var(--line)]">
+              <div className="relative h-full w-full border">
                 <img
                   src={img.src}
                   alt={img.alt}
@@ -193,12 +148,12 @@ const Carousel_006 = ({
               </div>
             </motion.div>
             <AnimatePresence mode="wait">
-              {centeredIndex === index && img.title && (
+              {current === index && (
                 <motion.div
                   initial={{ opacity: 0, filter: "blur(10px)" }}
                   animate={{ opacity: 1, filter: "blur(0px)" }}
                   transition={{ duration: 0.5 }}
-                  className="absolute bottom-0 left-2 flex h-[14%] w-full translate-y-full items-center justify-center p-2 text-center font-serif text-sm italic tracking-tight text-[var(--muted)]"
+                  className="absolute bottom-0 left-2 flex h-[14%] w-full translate-y-full items-center justify-center p-2 text-center font-medium tracking-tight text-black/20"
                 >
                   {img.title}
                 </motion.div>
@@ -212,25 +167,17 @@ const Carousel_006 = ({
         <div className="absolute -bottom-4 right-0 flex w-full items-center justify-between gap-2 px-4">
           <button
             aria-label="Previous slide"
-            onClick={() => {
-              if (!api) return;
-              if (api.canScrollPrev()) api.scrollPrev();
-              else api.scrollTo(api.scrollSnapList().length - 1);
-            }}
-            className="rounded-full bg-[var(--accent-deep)]/80 p-2"
+            onClick={() => api?.scrollPrev()}
+            className="rounded-full bg-black/10 p-2"
           >
-            <ChevronLeft className="text-[var(--paper)]" />
+            <ChevronLeft className="text-white" />
           </button>
           <button
             aria-label="Next slide"
-            onClick={() => {
-              if (!api) return;
-              if (api.canScrollNext()) api.scrollNext();
-              else api.scrollTo(0);
-            }}
-            className="rounded-full bg-[var(--accent-deep)]/80 p-2"
+            onClick={() => api?.scrollNext()}
+            className="rounded-full bg-black/10 p-2"
           >
-            <ChevronRight className="text-[var(--paper)]" />
+            <ChevronRight className="text-white" />
           </button>
         </div>
       )}
@@ -238,13 +185,13 @@ const Carousel_006 = ({
       {showPagination && (
         <div className="flex w-full items-center justify-center">
           <div className="flex items-center justify-center gap-2">
-            {Array.from({ length: snapCount }).map((_, index) => (
+            {Array.from({ length: images.length }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => api?.scrollTo(index)}
                 className={cn(
                   "h-2 w-2 cursor-pointer rounded-full transition-all",
-                  current === index ? "bg-[var(--accent-deep)]" : "bg-[var(--line)]",
+                  current === index ? "bg-black" : "bg-[#D9D9D9]",
                 )}
                 aria-label={`Go to slide ${index + 1}`}
               />
