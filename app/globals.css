@@ -1052,7 +1052,40 @@ button {
 /* ─────────  Passport card  ───────── */
 
 .keepsake-passport {
+  display: flex;
   width: min(100%, 34rem);
+  flex-direction: column;
+  align-items: center;
+  gap: 2.6rem;
+}
+
+.passport-download {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid var(--line);
+  padding: 0.5rem 1.05rem;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-family: var(--font-serif), Garamond, Georgia, serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition:
+    border-color var(--motion-soft),
+    color var(--motion-soft);
+}
+
+.passport-download:hover {
+  border-color: var(--accent-deep);
+  color: var(--accent-deep);
+}
+
+.passport-download:disabled {
+  cursor: default;
+  opacity: 0.55;
 }
 
 .passport-card {
@@ -1155,25 +1188,34 @@ button {
 .passport-seal {
   position: absolute;
   right: 1.6rem;
-  bottom: -1.9rem;
-  display: grid;
-  width: 4.6rem;
-  height: 4.6rem;
-  place-items: center;
+  bottom: -2.2rem;
+  display: flex;
+  width: 5.8rem;
+  height: 5.8rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
   border: 3px double var(--accent-deep);
   border-radius: 50%;
   background: rgba(243, 233, 212, 0.94);
   color: var(--accent-deep);
+  text-align: center;
   transform: rotate(-12deg);
 }
 
 .passport-seal span {
+  padding: 0 0.3rem;
   font-family: var(--font-serif), Garamond, Georgia, serif;
-  font-size: 0.72rem;
+  font-size: 0.62rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-align: center;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.passport-seal span:first-child {
+  opacity: 0.85;
+  font-size: 0.56rem;
 }
 
 /* ─────────  Carousel  ───────── */
