@@ -1220,6 +1220,28 @@ button {
 
 /* ─────────  Carousel  ───────── */
 
+.keepsake-carousel-heading {
+  width: min(100%, 34rem);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.keepsake-carousel-heading h2 {
+  margin: 0;
+  font-family: var(--font-serif), Garamond, Georgia, serif;
+  font-size: clamp(1.4rem, 3.5vw, 1.85rem);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+.keepsake-carousel-heading p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  font-family: var(--font-serif), Garamond, Georgia, serif;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
 .keepsake-carousel {
   display: flex;
   width: 100%;

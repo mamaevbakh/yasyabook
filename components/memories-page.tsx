@@ -1,17 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ImagePlus } from "lucide-react";
+import { toPng } from "html-to-image";
+import { Download, ImagePlus } from "lucide-react";
 import { Carousel_002 } from "@/components/ui/skiper-ui/skiper48";
 import type { Memory } from "@/lib/database.types";
 import { listMemories, uploadMemory } from "@/lib/memories";
 
 export function MemoriesPage() {
   const [memories, setMemories] = useState<Memory[] | null>(null);
-  const [loadError, setLoadError] = useState("");
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
+  const [downloading, setDownloading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const passportRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -21,15 +23,30 @@ export function MemoriesPage() {
         if (!cancelled) setMemories(data);
       })
       .catch(() => {
-        if (!cancelled) {
-          setLoadError("The memory book would not open. Try refreshing.");
-        }
+        // Silently retry-able — the carousel section just stays empty.
       });
 
     return () => {
       cancelled = true;
     };
   }, []);
+
+  async function handleDownloadCertificate() {
+    if (!passportRef.current) return;
+
+    setDownloading(true);
+    try {
+      const dataUrl = await toPng(passportRef.current, { pixelRatio: 2 });
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = "certificate-of-coolness.png";
+      link.click();
+    } catch {
+      // Nothing to reconcile — the button just stays clickable to retry.
+    } finally {
+      setDownloading(false);
+    }
+  }
 
   async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -55,24 +72,23 @@ export function MemoriesPage() {
         <div className="keepsake-ornament" aria-hidden="true">
           ❦
         </div>
-        <p className="eyebrow">For Yasya</p>
         <h1 className="keepsake-headline">Thank You For Being So Cool</h1>
       </section>
 
       <section className="keepsake-passport">
-        <div className="passport-card">
+        <div className="passport-card" ref={passportRef}>
           <div className="passport-header">
             <span className="passport-kicker">Official Document</span>
             <h2>Certificate of Coolness</h2>
           </div>
           <div className="passport-body">
             <div className="passport-photo">
-              <img src="/yasya/1.jpeg" alt="Yasya" />
+              <img src="/yasya/3.jpeg" alt="Яся Мамаева" />
             </div>
             <dl className="passport-fields">
               <div>
                 <dt>Name</dt>
-                <dd>Yasya</dd>
+                <dd>Яся Мамаева</dd>
               </div>
               <div>
                 <dt>Title</dt>
@@ -93,18 +109,28 @@ export function MemoriesPage() {
             </dl>
           </div>
           <div className="passport-seal" aria-hidden="true">
-            <span>Approved</span>
+            <span>Approved by</span>
+            <span>Баха Рамадан</span>
           </div>
         </div>
+
+        <button
+          type="button"
+          className="passport-download"
+          onClick={handleDownloadCertificate}
+          disabled={downloading}
+        >
+          <Download size={15} strokeWidth={1.8} />
+          {downloading ? "Preparing…" : "Download certificate"}
+        </button>
       </section>
 
+      <div className="keepsake-carousel-heading">
+        <h2>Proper doomscrolling looks like this</h2>
+        <p>Чота на бесконечном</p>
+      </div>
+
       <section className="keepsake-carousel">
-        {memories === null && !loadError && (
-          <p className="keepsake-message">Opening the memory book…</p>
-        )}
-
-        {loadError && <p className="keepsake-message">{loadError}</p>}
-
         {memories && memories.length === 0 && (
           <p className="keepsake-message">
             No memories yet — add the first one below.
