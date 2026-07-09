@@ -75,6 +75,7 @@ const Carousel_002 = ({
   showPagination = false,
   showNavigation = false,
   loop = true,
+  rewind = false,
   autoplay = false,
   spaceBetween = 40,
 }: {
@@ -83,6 +84,7 @@ const Carousel_002 = ({
   showPagination?: boolean;
   showNavigation?: boolean;
   loop?: boolean;
+  rewind?: boolean;
   autoplay?: boolean;
   spaceBetween?: number;
 }) => {
@@ -116,6 +118,7 @@ const Carousel_002 = ({
         effect="cards"
         grabCursor={true}
         loop={loop}
+        rewind={rewind}
         pagination={
           showPagination
             ? {

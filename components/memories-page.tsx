@@ -154,6 +154,7 @@ export function MemoriesPage() {
               }))}
               showPagination
               loop={false}
+              rewind
               className="keepsake-carousel-inner"
             />
             <p className="keepsake-swipe-hint">Swipe</p>
