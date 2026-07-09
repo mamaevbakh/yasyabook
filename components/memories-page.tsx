@@ -210,7 +210,7 @@ export function MemoriesPage() {
                 }))}
                 showNavigation
                 showPagination
-                loop={false}
+                loop
               />
             </div>
           </>

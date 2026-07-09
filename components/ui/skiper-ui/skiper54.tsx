@@ -94,12 +94,38 @@ const Carousel_006 = ({
 }: Carousel_006Props) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [centeredIndex, setCenteredIndex] = useState(0);
   const [snapCount, setSnapCount] = useState(images.length);
 
   useEffect(() => {
     if (!api) return;
 
-    const onSelect = () => setCurrent(api.selectedScrollSnap());
+    // The scroll-snap index (used for pagination dots) and the image that
+    // actually sits at the visual center of the viewport are NOT the same
+    // number once there are more photos than fit on screen at once — e.g.
+    // 5 photos can produce 3 snaps, and snap 1 might center image 2, not
+    // image 1. Find the truly-centered slide by DOM geometry instead of
+    // assuming it matches the snap index.
+    const findCenteredIndex = () => {
+      const containerRect = api.containerNode().getBoundingClientRect();
+      const containerCenter = containerRect.left + containerRect.width / 2;
+      let closest = 0;
+      let minDistance = Infinity;
+      api.slideNodes().forEach((slide, index) => {
+        const rect = slide.getBoundingClientRect();
+        const distance = Math.abs(rect.left + rect.width / 2 - containerCenter);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closest = index;
+        }
+      });
+      return closest;
+    };
+
+    const onSelect = () => {
+      setCurrent(api.selectedScrollSnap());
+      setCenteredIndex(findCenteredIndex());
+    };
     const onReInit = () => {
       setSnapCount(api.scrollSnapList().length);
       onSelect();
@@ -152,7 +178,7 @@ const Carousel_006 = ({
               initial={false}
               animate={{
                 clipPath:
-                  current !== index
+                  centeredIndex !== index
                     ? "inset(15% 0 15% 0 round 2rem)"
                     : "inset(0 0 0 0 round 2rem)",
               }}
@@ -167,7 +193,7 @@ const Carousel_006 = ({
               </div>
             </motion.div>
             <AnimatePresence mode="wait">
-              {current === index && img.title && (
+              {centeredIndex === index && img.title && (
                 <motion.div
                   initial={{ opacity: 0, filter: "blur(10px)" }}
                   animate={{ opacity: 1, filter: "blur(0px)" }}
